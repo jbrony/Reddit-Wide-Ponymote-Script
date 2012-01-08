@@ -3,10 +3,12 @@ $checkbox_subs = array(
 	'mylittleandysonic1' => true,
 	'mlas1animotes' => true,
 	'mylittlewtf' => true,
-	'daylightemotes' => false,
 	'mylittlelivestream' => false,
-	'mylittlenanners' => false,
 	'vinylscratch' => false,
+	'daylightemotes' => false,
+	'mylittlesquidward' => false,
+	'mylittleNopeNopeNope' => false,
+	'mylittlenanners' => false,
 );
 
 $derp = false;
