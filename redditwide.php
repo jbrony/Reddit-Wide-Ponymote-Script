@@ -7,9 +7,11 @@ $checkbox_subs = array(
 	'vinylscratch' => false,
 	'daylightemotes' => false,
 	'mylittlesquidward' => false,
-	'mylittleNopeNopeNope' => false,
+	'mylittlenopenopenope' => false,
 	'mylittlenanners' => false,
 );
+
+$globalversion = 1.1;
 
 $derp = false;
 
@@ -101,7 +103,9 @@ li {
 <div class="container">
       <form action="redditwide.user.js" method="get">
         <fieldset>
-          <legend>Reddit-wide Ponymotes</legend>
+          <legend>Reddit-wide Ponymotes
+		  <span class="help-inline">Version <?php echo $globalversion; ?></span>
+		  </legend>
 		  <?php 
 		  if ($derp) {
 		  ?>
