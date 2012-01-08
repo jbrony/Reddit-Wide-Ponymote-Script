@@ -1,0 +1,4 @@
+# Turn on URL rewriting
+RewriteEngine On
+
+RewriteRule redditwide.user.js redditwide.php
