@@ -24,7 +24,7 @@ if (isset($_GET['derp'])) {
 		}
 	}
 	
-	if ($_GET['customList']) {
+	if ($_GET['custom']) {
 		$customList = explode(',', $_GET['custom']);
 		
 		foreach ($customList as $index => $sub) {
