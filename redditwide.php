@@ -25,7 +25,7 @@ if (isset($_GET['derp'])) {
 	}
 	
 	if ($_GET['customList']) {
-		$customList = explode(',', $_GET['customList']);
+		$customList = explode(',', $_GET['custom']);
 		
 		foreach ($customList as $index => $sub) {
 			$sub = trim($sub);
@@ -141,7 +141,7 @@ li {
 		  <div class="clearfix">
             <label for="customList">Custom list:</label>
             <div class="input">
-              <input type="text" size="30" name="customList" id="customList" class="xlarge">
+              <input type="text" size="30" name="custom" id="custom" value="<?php if (isset($_GET['custom'])) { echo htmlspecialchars($_GET['custom']); } ?>" class="xlarge">
 			  <span class="help-inline">Comma separated values: "mylittledaww, idliketobeatree, mylittlesquidward"</span>
 			  <span class="help-block error">
                 <strong>Note:</strong> Adding non-supported subs may break emotes from others such as mylittlepony!
