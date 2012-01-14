@@ -1,5 +1,6 @@
 <?php
 $checkbox_subs = array(
+	'extracss' => true,
 	'mylittleandysonic1' => true,
 	'mlas1animotes' => true,
 	'mylittlewtf' => true,
@@ -11,7 +12,7 @@ $checkbox_subs = array(
 	'mylittlenanners' => false,
 );
 
-$globalVersion = 1.1;
+$globalVersion = 1.2;
 $derp = false;
 
 function sublist_to_array($string) {
@@ -163,7 +164,7 @@ else {
       </form>
 </div>
 <div class="footer">
-user script by <a href="http://www.reddit.com/message/compose/?to=cheesemoo">cheesemoo</a> - generation script by <a href="http://www.reddit.com/user/badjokemostlikely">badjokemostlikely</a>
+user script by <a href="http://www.reddit.com/user/cheesemoo">cheesemoo</a> - generation script by <a href="http://www.reddit.com/user/badjokemostlikely">badjokemostlikely</a>
 </div>
 </body>
 </html>

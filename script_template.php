@@ -18,8 +18,55 @@
 //Edit this list to add/remove subreddits' emotes
 var subreddits = [<?php echo $subreddit_list; ?>];
 
-function handleCss(data) {
-  var pattern = /a\[href[\^|]?=['"]\/[^}]+}/g;
+/* 
+    Function adapted from this guy's thing: http://james.padolsey.com/javascript/removing-comments-in-javascript/
+*/
+function removeComments(str) {
+    str = ('__' + str + '__').split('');
+    var mode = {
+        singleQuote: false,
+        doubleQuote: false,
+        blockComment: false,
+    };
+    for (var i = 0, l = str.length; i < l; i++) {
+  
+        if (mode.singleQuote) {
+            if (str[i] === "'" && str[i-1] !== '\\') {
+                mode.singleQuote = false;
+            }
+            continue;
+        }
+ 
+        if (mode.doubleQuote) {
+            if (str[i] === '"' && str[i-1] !== '\\') {
+                mode.doubleQuote = false;
+            }
+            continue;
+        }
+ 
+        if (mode.blockComment) {
+            if (str[i] === '*' && str[i+1] === '/') {
+                str[i+1] = '';
+                mode.blockComment = false;
+            }
+            str[i] = '';
+            continue;
+        }
+        
+        mode.doubleQuote = str[i] === '"';
+        mode.singleQuote = str[i] === "'";
+ 
+        if (str[i] === '/' && str[i+1] === '*') {
+            str[i] = '';
+            mode.blockComment = true;
+            continue;
+        }
+ 
+    }
+    return str.join('').slice(2, -2);
+}
+
+function extractCss(data, pattern) {
   var styles = data.match(pattern);
   if (styles)
   {
@@ -28,10 +75,27 @@ function handleCss(data) {
   }
 }
 
+function handleCss(subreddit, data) {
+  var noComments = removeComments(data);
+  var noIgnorestuff = noComments.replace(/START-PONYSCRIPT-IGNORE[^{]*{[^}]*}[\s\S]*END-PONYSCRIPT-IGNORE[^{]*{[^}]*}/gi, "");
+  extractCss(noIgnorestuff, /a\[href[\^|]?=['"]\/[^}]+}/g);
+  if (subreddit.toLowerCase() == "extracss")
+  {
+    extractCss(data, /START-PONYSCRIPT-CSS[^{]*{[^}]*}[\s\S]*END-PONYSCRIPT-CSS[^{]*{[^}]*}/gi);
+  }
+}
+
 function init() {
     for (var i in subreddits)
-    {      
-      $.get("/r/" + subreddits[i] + "/stylesheet.css", handleCss);
+    {
+      var subreddit = subreddits[i];
+      var callback = function(sub) {
+        return function(data) {
+          handleCss(sub, data);
+        };
+      };
+      
+      $.get("/r/" + subreddit + "/stylesheet.css", callback(subreddit));
     }
 }
 
