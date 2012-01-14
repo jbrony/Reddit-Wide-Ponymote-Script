@@ -11,9 +11,22 @@ $checkbox_subs = array(
 	'mylittlenanners' => false,
 );
 
-$globalversion = 1.1;
-
+$globalVersion = 1.1;
 $derp = false;
+
+function sublist_to_array($string) {
+	$array = explode(',', $string);
+	
+	foreach ($array as $index => $sub) {
+		$sub = trim($sub);
+		$sub = preg_replace('/[^\w_]/', '', $sub);
+		
+		if ($sub)
+			$array[$index] = $sub;
+	}
+	
+	return $array;
+}
 
 if (isset($_GET['derp'])) {
 	$subreddit_array = array();
@@ -25,28 +38,24 @@ if (isset($_GET['derp'])) {
 	}
 	
 	if ($_GET['custom']) {
-		$customList = explode(',', $_GET['custom']);
-		
-		foreach ($customList as $index => $sub) {
-			$sub = trim($sub);
-			$sub = preg_replace('/[^\w_]/', '', $sub);
-			
-			if ($sub)
-				$customList[$index] = $sub;
-		}
-		
-		$subreddit_array = array_merge($subreddit_array, $customList);
+		$subreddit_array = array_merge($subreddit_array, sublist_to_array($_GET['custom']));
 	}
 	
 	$subreddit_list = '';
+	
 	foreach ($subreddit_array as $sub) {
 		$subreddit_list .= ' "'.$sub.'",';
 	}
+	
 	$subreddit_list = rtrim($subreddit_list, ","); // Because lazy
 	
 	if ($subreddit_list) {
+		// Saving the list
+		setcookie('subreddit_list', implode(',', $subreddit_array));
+		
+		// Script ahoy!
 		header('Content-Type: application/javascript');
-		header('Content-Disposition: attachment; filename="redditwide.user.js"');
+		header('Content-Disposition: attachment; filename="redditwide.user.js"');		
 		include ('script_template.php');
 		exit;
 	}
@@ -54,57 +63,54 @@ if (isset($_GET['derp'])) {
 		$derp = 'You didn\'t select any subreddits!';
 	}
 }
+else {
+	// Restoring the saved list, GET argument overrides the cookie.
+	$subreddit_list = false;
+	
+	if (!empty($_COOKIE['subreddit_list']) && empty($_GET['list'])) {
+		$subreddit_list = sublist_to_array($_COOKIE['subreddit_list'], ',');
+	}
+	else if (!empty($_GET['list'])) {
+		$subreddit_list = sublist_to_array($_GET['list'], ',');
+	}
+	
+	if ($subreddit_list) {	
+		$custom_subs = array();
+		
+		// When using a cookie or a parameter, first reset the default subs.
+		foreach ($checkbox_subs as $sub => $value) {
+			$checkbox_subs[$sub] = false;
+		}
+		
+		foreach ($subreddit_list as $sub) {
+			if (array_key_exists($sub, $checkbox_subs)) {
+				$checkbox_subs[$sub] = true;
+			}
+			else {
+				$custom_subs[] = $sub;
+			}
+		}
+		
+		$custom = implode($custom_subs, ',');
+	}
+}
+
 ?><!doctype html>
 <html>
 <head>
 <title>Reddit-wide Ponymotes!</title>
 <meta charset="utf-8">
-<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
-<style>
-html, body {
-	background: #dddddd;
-}
-
-.container {
-	background: #fcfcfc;
-	margin-top: 20px;
-	padding-top: 20px;
-	border: 1px solid #8e8e8e;
-	border-radius: 4px;
-	box-shadow: 0px 0px 18px #9d9d9d;
-}
-
-form, fieldset, .actions {
-	margin-bottom: 0;
-}
-
-li {
-	margin: 4px 0;
-}
-
-.footer {
-	text-align: center;
-	color: #4d4d4d;
-	padding: 12px;
-}
-
-.container .alert-message {
-	margin: 5px 20px;
-}
-
-.error {
-   color: #B94A48;
-   margin-top: 4px;
-}
-
-</style>
+<link rel="stylesheet" href="../assets/bootstrap.min.css">
+<link rel="stylesheet" href="../assets/redditwide.css">
+<script src="../assets/mootools.min.js"></script>
+<script src="../assets/redditwide.js"></script>
 </head>
 <body>
 <div class="container">
       <form action="redditwide.user.js" method="get">
         <fieldset>
           <legend>Reddit-wide Ponymotes
-		  <span class="help-inline">Version <?php echo $globalversion; ?></span>
+		  <span class="help-inline">Version <?php echo $globalVersion; ?></span>
 		  </legend>
 		  <?php 
 		  if ($derp) {
@@ -118,7 +124,7 @@ li {
           <div class="clearfix">
             <label id="optionsCheckboxes">Choose your subreddits:</label>
             <div class="input">
-              <ul class="inputs-list">
+              <ul class="inputs-list" id="checkboxes">
 			  <?php
 			  foreach ($checkbox_subs as $sub_name => $checked) {
 				echo '<li>
@@ -136,15 +142,16 @@ li {
 			  }
 			  ?>
               </ul>
+			  <a href="#" id="checkButton" class="btn small">Check All</a>
             </div>
           </div><!-- /clearfix -->
 		  <div class="clearfix">
             <label for="customList">Custom list:</label>
             <div class="input">
-              <input type="text" size="30" name="custom" id="custom" value="<?php if (isset($_GET['custom'])) { echo htmlspecialchars($_GET['custom']); } ?>" class="xlarge">
-			  <span class="help-inline">Comma separated values: "mylittledaww, idliketobeatree, mylittlesquidward"</span>
-			  <span class="help-block error">
-                <strong>Note:</strong> Adding non-supported subs may break emotes from others such as mylittlepony!
+              <input type="text" size="30" name="custom" id="custom" value="<?php if (isset($custom) && $custom) { echo htmlspecialchars($custom); } ?>" class="xlarge">
+			  <span class="help-inline error hidden" id="customNote">Adding non-supported subs may break emotes from others such as mylittlepony!</span>
+			  <span class="help-block">
+                Comma separated values: "mylittledaww, idliketobeatree, etc".
               </span>
             </div>
           </div>
@@ -160,6 +167,3 @@ user script by <a href="http://www.reddit.com/message/compose/?to=cheesemoo">che
 </div>
 </body>
 </html>
-<?php
-
-?>
