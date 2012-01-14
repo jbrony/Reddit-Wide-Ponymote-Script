@@ -100,10 +100,10 @@ else {
 <head>
 <title>Reddit-wide Ponymotes!</title>
 <meta charset="utf-8">
-<link rel="stylesheet" href="../assets/bootstrap.min.css">
-<link rel="stylesheet" href="../assets/redditwide.css">
-<script src="../assets/mootools.min.js"></script>
-<script src="../assets/redditwide.js"></script>
+<link rel="stylesheet" href="assets/bootstrap.min.css">
+<link rel="stylesheet" href="assets/redditwide.css">
+<script src="assets/mootools.min.js"></script>
+<script src="assets/redditwide.js"></script>
 </head>
 <body>
 <div class="container">
