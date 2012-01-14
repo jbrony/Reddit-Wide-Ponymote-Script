@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Reddit-wide Ponymotes
 // @namespace      redditwide_emotes
-// @version        <?php echo $globalversion; ?>
+// @version        <?php echo $globalVersion; ?>
 
 // @description    Makes emotes from these subs visible in all subreddits:<?php echo $subreddit_list; ?>. Adapted from http://userscripts.org/scripts/show/94898, with jQuery stuff copied from http://userscripts.org/scripts/review/83979
 // @include        http://reddit.com/*
