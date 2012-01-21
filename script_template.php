@@ -18,6 +18,23 @@
 //Edit this list to add/remove subreddits' emotes
 var subreddits = [<?php echo $subreddit_list; ?>];
 
+var titleSpanLoadingStyle = "font-size:1.1em; color:red;";
+var titleSpanLoadedStyle = "font-size:1.2em; color:green;";
+var textareaStyle = "width: 75%; height: 400px;";
+
+var mode = "normal";
+var cssArray = [];
+
+function getTitleSpanClass(index)
+{
+    return "titleSpan-" + index;
+}
+
+function getTextareaClass(index)
+{
+    return "cssTextarea-" + index;
+}
+
 /* 
     Function adapted from this guy's thing: http://james.padolsey.com/javascript/removing-comments-in-javascript/
 */
@@ -66,36 +83,79 @@ function removeComments(str) {
     return str.join('').slice(2, -2);
 }
 
-function extractCss(data, pattern) {
-  var styles = data.match(pattern);
-  if (styles)
-  {
-    $('head').append("<style type=\"text/css\" title=\"applied_subreddit_stylesheet\">" +
-        styles.join("\n") + "</style>");
-  }
+function extractCss(data, pattern, index) {
+    var styles = data.match(pattern);
+    if (styles)
+    {
+        var css = styles.join("\n");
+        cssArray[index] += css;
+        
+        if (mode == "dump")
+        {
+            $('textarea.main-dump').html(cssArray.join("\n"));
+            $('textarea.' + getTextareaClass(index)).html(cssArray[index]);
+        }
+        else
+        {
+            $('head').append("<style type=\"text/css\" title=\"stylesheet_for_" + subreddits[index] + "\">" + css + "</style>");
+        }
+    }
 }
 
-function handleCss(subreddit, data) {
-  var noComments = removeComments(data);
-  var noIgnorestuff = noComments.replace(/START-PONYSCRIPT-IGNORE[^{]*{[^}]*}[\s\S]*END-PONYSCRIPT-IGNORE[^{]*{[^}]*}/gi, "");
-  extractCss(noIgnorestuff, /a\[href[\^|]?=['"]\/[^}]+}/g);
-  if (subreddit.toLowerCase() == "extracss")
-  {
-    extractCss(data, /START-PONYSCRIPT-CSS[^{]*{[^}]*}[\s\S]*END-PONYSCRIPT-CSS[^{]*{[^}]*}/gi);
-  }
+function handleCss(index, data) {
+    var noComments = removeComments(data);
+    var noIgnorestuff = noComments.replace(/START-PONYSCRIPT-IGNORE[^{]*{[^}]*}[\s\S]*END-PONYSCRIPT-IGNORE[^{]*{[^}]*}/gi, "");
+    extractCss(noIgnorestuff, /a\[href[\^|]?=['"]\/[^}]+}/g, index);
+    if (subreddits[index].toLowerCase() == "extracss")
+    {
+        extractCss(data, /START-PONYSCRIPT-CSS[^{]*{[^}]*}[\s\S]*END-PONYSCRIPT-CSS[^{]*{[^}]*}/gi, index);
+    }
+    if (mode == "dump")
+    {
+        //Set the style of the title span to indicate that the CSS for this sub is loaded.
+        $("span." + getTitleSpanClass(index)).attr("style", titleSpanLoadedStyle);
+    }
+}
+
+function generateSubredditTitleSpans()
+{
+    var spans = "";
+    for (var i in subreddits)
+    {
+        spans += "<span class='" + getTitleSpanClass(i) + "' style='" + titleSpanLoadingStyle + "'>" + subreddits[i] +" </span>";
+    }
+    return spans;
+}
+
+function generateSubredditTextareas()
+{
+    var textareas = "";
+    for (var i in subreddits)
+    {
+        textareas += "<h1>" + subreddits[i] + " CSS:</h1>" + "<textarea class='" + getTextareaClass(i) + "' style='" + textareaStyle + "'> </textarea>";
+    }
+    return textareas;
 }
 
 function init() {
+    if (document.URL == "http://www.reddit.com/ponyscript-dump")
+    {
+        mode = "dump";
+        var spans = generateSubredditTitleSpans();
+        var textareas = generateSubredditTextareas();
+        $("div.content").html("<div class='dumps' style='text-align: center;'>" + spans + "<h1>All collected CSS:</h1><textarea class='main-dump' style='" + textareaStyle + "'> </textarea>" + textareas + "</div>");
+    }
+    
     for (var i in subreddits)
     {
-      var subreddit = subreddits[i];
-      var callback = function(sub) {
-        return function(data) {
-          handleCss(sub, data);
+        cssArray[i] = "";
+        var callback = function(sub) {
+            return function(data) {
+                handleCss(sub, data);
+            };
         };
-      };
-      
-      $.get("/r/" + subreddit + "/stylesheet.css", callback(subreddit));
+
+        $.get("/r/" + subreddits[i] + "/stylesheet.css", callback(i));
     }
 }
 
