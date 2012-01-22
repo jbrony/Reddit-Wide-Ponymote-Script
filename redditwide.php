@@ -25,15 +25,18 @@ $derp = false;
 function sublist_to_array($string) {
 	$array = explode(',', $string);
 	
+	$result = array();
+	
 	foreach ($array as $index => $sub) {
 		$sub = trim($sub);
 		$sub = preg_replace('/[^\w_]/', '', $sub);
 		
-		if ($sub)
-			$array[$index] = $sub;
+		if ($sub) {
+			$result[$index] = $sub;
+		}
 	}
 	
-	return $array;
+	return $result;
 }
 
 if (isset($_GET['derp'])) {
@@ -75,11 +78,11 @@ else {
 	// Restoring the saved list, GET argument overrides the cookie.
 	$subreddit_list = false;
 	
-	if (!empty($_COOKIE['subreddit_list']) && empty($_GET['list'])) {
-		$subreddit_list = sublist_to_array($_COOKIE['subreddit_list'], ',');
-	}
-	else if (!empty($_GET['list'])) {
+	if (!empty($_GET['list'])) {
 		$subreddit_list = sublist_to_array($_GET['list'], ',');
+	}
+	else if (!empty($_COOKIE['subreddit_list'])) {
+		$subreddit_list = sublist_to_array($_COOKIE['subreddit_list'], ',');
 	}
 		
 	if ($subreddit_list) {	
@@ -182,7 +185,7 @@ else {
             </div>
           </div>
           <div class="actions">
-            <input type="submit" value="Get the script!" class="btn primary">
+            <input type="submit" value="Get the script!" class="btn primary"> <a href="#" id="customUrlButton" class="btn">Get a Custom URL!</a>
 			<input type="hidden" value=".user.js" name="derp">
           </div>
         </fieldset>
@@ -191,5 +194,23 @@ else {
 <div class="footer">
 user script by <a href="http://www.reddit.com/user/cheesemoo">cheesemoo</a> - generation script by <a href="http://www.reddit.com/user/badjokemostlikely">badjokemostlikely</a>
 </div>
+
+<!-- Get URL Popup -->
+<div class="modal fade" id="customUrlPopup">
+	<div class="modal-header">
+		<a href="#" class="close">x</a>
+		<h3>Custom URL</h3>
+	</div>
+	<div class="modal-body">
+		<p>The URL below will generate a script with the same configuration you have now.</p>
+		<div class="input">
+		<input type="text" name="customUrlInput" id="customUrlInput" value="NUTHIN" class="xxlarge">
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn dismiss stopEvent">Close</a>
+	</div>
+</div>
+
 </body>
 </html>

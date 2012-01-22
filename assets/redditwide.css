@@ -44,3 +44,11 @@ li {
 .hidden {
 	visibility: hidden;
 }
+
+#customUrlPopup .input {
+	text-align: center;
+}
+
+#customUrlPopup .input .xxlarge {
+	width: 524px;
+}
