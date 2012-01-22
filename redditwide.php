@@ -7,7 +7,7 @@ Will display the subreddit name.
 Will display the name given in the array.
 */
 $checkbox_subs = array(
-	'extracss' => array('Extra CSS', true),
+	'extracss' => array('<a href="http://www.reddit.com/or02y">CSS effects</a>', true),
 	'mylittleandysonic1' => true,
 	'mlas1animotes' => true,
 	'mylittlewtf' => true,
