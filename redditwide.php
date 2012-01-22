@@ -1,6 +1,13 @@
 <?php
+/*
+'subredditname' => true
+Will display the subreddit name.
+
+'subredditname' => array('A Better name', true)
+Will display the name given in the array.
+*/
 $checkbox_subs = array(
-	'extracss' => true,
+	'extracss' => array('Extra CSS', true),
 	'mylittleandysonic1' => true,
 	'mlas1animotes' => true,
 	'mylittlewtf' => true,
@@ -32,9 +39,9 @@ function sublist_to_array($string) {
 if (isset($_GET['derp'])) {
 	$subreddit_array = array();
 
-	foreach ($checkbox_subs as $sub_name => $default) {
-		if (isset($_GET[$sub_name]) && $_GET[$sub_name] == 'true') {
-			$subreddit_array[] = $sub_name;
+	foreach ($checkbox_subs as $subName => $default) {
+		if (isset($_GET[$subName]) && $_GET[$subName] == 'true') {
+			$subreddit_array[] = $subName;
 		}
 	}
 	
@@ -74,18 +81,28 @@ else {
 	else if (!empty($_GET['list'])) {
 		$subreddit_list = sublist_to_array($_GET['list'], ',');
 	}
-	
+		
 	if ($subreddit_list) {	
 		$custom_subs = array();
 		
 		// When using a cookie or a parameter, first reset the default subs.
 		foreach ($checkbox_subs as $sub => $value) {
-			$checkbox_subs[$sub] = false;
+			if (is_array($value)) {
+				$checkbox_subs[$sub] = array($value[0], false);
+			}
+			else {
+				$checkbox_subs[$sub] = false;
+			}
 		}
 		
 		foreach ($subreddit_list as $sub) {
 			if (array_key_exists($sub, $checkbox_subs)) {
-				$checkbox_subs[$sub] = true;
+				if (is_array($checkbox_subs[$sub])) {
+					$checkbox_subs[$sub] = array($checkbox_subs[$sub][0], true);
+				}
+				else {
+					$checkbox_subs[$sub] = true;
+				}
 			}
 			else {
 				$custom_subs[] = $sub;
@@ -127,7 +144,15 @@ else {
             <div class="input">
               <ul class="inputs-list" id="checkboxes">
 			  <?php
-			  foreach ($checkbox_subs as $sub_name => $checked) {
+			  foreach ($checkbox_subs as $subName => $checked) {
+				if (is_array($checked)) {
+					$subDisplayName = $checked[0];
+					$checked = $checked[1];
+				}
+				else {
+					$subDisplayName = $subName;
+				}
+			  
 				echo '<li>
                   <label>
                     <input type="checkbox" value="true"';
@@ -136,8 +161,8 @@ else {
 					echo ' checked="checked" ';
 				}
 
-				echo 'name="'.$sub_name.'">
-                    <span>'.$sub_name.'</span>
+				echo 'name="'.$subName.'">
+                    <span>'.$subDisplayName.'</span>
                   </label>
                 </li>';
 			  }
