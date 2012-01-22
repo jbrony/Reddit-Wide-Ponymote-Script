@@ -18,6 +18,7 @@ $checkbox_subs = array(
 	'mylittlesquidward' => false,
 	'mylittlenopenopenope' => false,
 	'mylittlenanners' => false,
+	'mylittlenosleep' => false,
 );
 
 $globalVersion = 1.2;
