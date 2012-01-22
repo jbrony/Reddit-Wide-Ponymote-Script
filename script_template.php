@@ -97,7 +97,7 @@ function extractCss(data, pattern, index) {
         }
         else
         {
-            $('head').append("<style type=\"text/css\" title=\"stylesheet_for_" + subreddits[index] + "\">" + css + "</style>");
+            $('head').append("<style type=\"text/css\" title=\"applied_subreddit_stylesheet\">" + css + "</style>");
         }
     }
 }
