@@ -11,7 +11,6 @@ $checkbox_subs = array(
 	'mylittleandysonic1' => true,
 	'mlas1animotes' => true,
 	'mylittlewtf' => true,
-	'mylittlepony' => false,
 	'mylittlelivestream' => false,
 	'vinylscratch' => false,
 	'daylightemotes' => false,
@@ -19,6 +18,7 @@ $checkbox_subs = array(
 	'mylittlenopenopenope' => false,
 	'mylittlenanners' => false,
 	'mylittlenosleep' => false,
+	'mylittledamon' => false,
 );
 
 $globalVersion = 1.2;
