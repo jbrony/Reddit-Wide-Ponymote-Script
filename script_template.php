@@ -92,7 +92,7 @@ function extractCss(data, pattern, index)
 		//Then save the expiration date to storage. Use a random time 10-15 minutes in 
 		// the future, so that all of the stylesheets won't expire at once. That should
 		// help spread out the requests.
-		var minutesTilExpiration = randomFromTo(10, 15);
+		var minutesTilExpiration = randomFromTo(60, 90);
 		var expirationDate = moment().add('minutes', minutesTilExpiration);
 		var expirationKey = getExpirationKey(index);
 		storage[expirationKey] = expirationDate;
