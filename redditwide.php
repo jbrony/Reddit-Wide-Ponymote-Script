@@ -21,7 +21,7 @@ $checkbox_subs = array(
 	'mylittledamon' => false,
 );
 
-$globalVersion = 1.2;
+$globalVersion = 1.3;
 $derp = false;
 
 function sublist_to_array($string) {
