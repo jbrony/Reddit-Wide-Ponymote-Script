@@ -11,6 +11,7 @@ $checkbox_subs = array(
 	'mylittleandysonic1' => true,
 	'mlas1animotes' => true,
 	'mylittlewtf' => true,
+	'idliketobeatree' => false,
 	'mylittlelivestream' => false,
 	'vinylscratch' => false,
 	'daylightemotes' => false,
