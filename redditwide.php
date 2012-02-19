@@ -22,6 +22,12 @@ $checkbox_subs = array(
 	'mylittledamon' => false,
 	'thebestpony' => false,
 	'roseluck' => false,
+	'applejack' => false,
+	'mylittlemusician' => false,
+	'mylittlecelestias' => false,
+	'mylittlechaos' => false,
+	'mylittlealcoholic' => false,
+	'mylittlelistentothis' => false,
 );
 
 $globalVersion = 1.3;
