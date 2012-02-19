@@ -103,6 +103,7 @@ function stylesheetFetched(index, data)
 {
     var noComments = removeComments(data);
     var noIgnorestuff = noComments.replace(/START-PONYSCRIPT-IGNORE[^{]*{[^}]*}[\s\S]*END-PONYSCRIPT-IGNORE[^{]*{[^}]*}/gi, "");
+    noIgnorestuff = noIgnorestuff.replace(/![\s]*important/gi, "");
 	
     if (subreddits[index].toLowerCase() == "extracss")
     {
