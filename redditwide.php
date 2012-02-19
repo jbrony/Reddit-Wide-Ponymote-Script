@@ -11,6 +11,7 @@ $checkbox_subs = array(
 	'mylittleandysonic1' => true,
 	'mlas1animotes' => true,
 	'mylittlewtf' => true,
+	'mylittlepony' => false,
 	'idliketobeatree' => false,
 	'mylittlelivestream' => false,
 	'vinylscratch' => false,
@@ -202,9 +203,9 @@ else {
             <label for="customList">Custom list:</label>
             <div class="input">
               <input type="text" size="30" name="custom" id="custom" value="<?php if (isset($custom) && $custom) { echo htmlspecialchars($custom); } ?>" class="xlarge">
-			  <span class="help-inline error hidden" id="customNote">Adding non-supported subs may break emotes from others such as mylittlepony!</span>
+			  <span class="help-inline error hidden" id="customNote">Adding non-supported subs may break emotes from others such as mylittleonions, mylittlefortress, etc !</span>
 			  <span class="help-block">
-                Comma separated values: "mylittledaww, idliketobeatree, etc".
+                Comma separated values: "mylittledaww, mylittlefortress, etc".
               </span>
             </div>
           </div>
