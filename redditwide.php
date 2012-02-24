@@ -29,6 +29,8 @@ $checkbox_subs = array(
 	'mylittlechaos' => false,
 	'mylittlealcoholic' => false,
 	'mylittlelistentothis' => false,
+	'surprise' => false,
+	'pinkiepie' => false,
 );
 
 $globalVersion = 1.3;
