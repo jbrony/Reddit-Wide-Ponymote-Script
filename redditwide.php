@@ -22,6 +22,7 @@ $checkbox_subs = array(
 	'mylittlenosleep' => false,
 	'mylittledamon' => false,
 	'thebestpony' => false,
+	'tbpimagedump' => false,
 	'roseluck' => false,
 	'applejack' => false,
 	'mylittlemusician' => false,
@@ -33,6 +34,7 @@ $checkbox_subs = array(
 	'pinkiepie' => false,
 	'twilightSparkle' => false,
 	'minuette' => false,
+	'lyra' => false,
 );
 
 $globalVersion = 1.3;
