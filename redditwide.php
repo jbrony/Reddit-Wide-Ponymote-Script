@@ -38,6 +38,9 @@ $checkbox_subs = array(
 	'mylittlefoodmanes' => false,
 	'mylittlesports' => false,
 	'speedingturtle' => false,
+	'ILoveDashie' => false,
+	'Flitter' => false,
+	'FalloutEquestria' => false,
 );
 
 $globalVersion = 1.3;
