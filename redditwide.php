@@ -8,7 +8,7 @@ Will display the name given in the array.
 */
 $checkbox_subs = array(
 	'extracss' => array('<a href="http://www.reddit.com/or02y">CSS effects</a>', true),
-	'mylittleandysonic1, mlas1emotes, mlas1emotes2, mlas1imagedump' => array('mylittleandysonic1', true),
+	'mylittleandysonic1,mlas1emotes,mlas1emotes2,mlas1imagedump' => array('mylittleandysonic1', true),
 	'mlas1animotes' => true,
 	'mylittlewtf' => true,
 	'mylittlepony' => false,
@@ -43,7 +43,7 @@ $checkbox_subs = array(
 	'FalloutEquestria' => false,
 );
 
-$globalVersion = '1.4dev';
+$globalVersion = '1.4';
 $derp = false;
 
 function sublist_to_array($string) {
