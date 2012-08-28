@@ -115,11 +115,11 @@ function extractCss(data, pattern, index)
 	var cssKey = getCssKey(index);
 	storage.write(cssKey, css);	
 	
-	//Then save the expiration date to storage. Use a random time some minutes in 
+	//Then save the expiration date to storage. Use a random time some time in 
 	// the future, so that all of the stylesheets won't expire at once. That should
 	// help spread out the requests.
-	var minutesTilExpiration = randomFromTo(60, 90);
-	var expirationDate = moment().add('minutes', minutesTilExpiration);
+	var hoursTilExpiration = randomFromTo(24, 48);
+	var expirationDate = moment().add('hours', hoursTilExpiration);
 	var expirationKey = getExpirationKey(index);
 	storage.write(expirationKey, expirationDate);
 	

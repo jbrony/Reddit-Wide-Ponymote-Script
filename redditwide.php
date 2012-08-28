@@ -8,7 +8,10 @@ Will display the name given in the array.
 */
 $checkbox_subs = array(
 	'extracss' => array('<a href="http://www.reddit.com/or02y">CSS effects</a>', true),
-	'mylittleandysonic1,mlas1emotes,mlas1emotes2,mlas1imagedump' => array('mylittleandysonic1', true),
+	'mylittleandysonic1' => true,
+	'mlas1emotes' => true,
+	'mlas1emotes2' => true,
+	'mlas1imagedump' => true,
 	'mlas1animotes' => true,
 	'mylittlewtf' => true,
 	'mylittlepony' => false,
